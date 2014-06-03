@@ -1,6 +1,8 @@
 Twitter Group Leaders
 =========
 
+Analyzes a given users input for interactions between other users and returns potential leaders within that social group.
+
 Team
 --------
 * Byron Samaripa
