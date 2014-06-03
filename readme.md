@@ -10,7 +10,7 @@ Team
 
 Installation
 --------
-'''sh
+```sh
 git clone git@github.com:bsamaripa/twitter-group-leaders.git
 grunt serve
-'''
+```
