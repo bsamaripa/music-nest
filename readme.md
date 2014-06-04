@@ -1,4 +1,4 @@
-Twitter Group Leaders
+Social Nest
 =========
 
 Analyzes a given users input for interactions between other users and returns potential leaders within that social group.
@@ -11,6 +11,6 @@ Team
 Installation
 --------
 ```sh
-git clone git@github.com:bsamaripa/twitter-group-leaders.git
+git clone git@github.com:bsamaripa/social-nest.git
 grunt serve
 ```
