@@ -1,7 +1,7 @@
-*.json
 *.tar.gz
 *.tar.bz
 *.tar
 *.zip
 node_modules/
 */.bin/
+data/*

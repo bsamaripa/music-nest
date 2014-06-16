@@ -1,0 +1,39 @@
+{
+  "name": "music-nest",
+  "version": "0.0.0",
+  "description": "A twitter based musician information tool",
+  "main": "js/main.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bsamaripa/social-nest.git"
+  },
+  "keywords": [
+    "twitter",
+    "music",
+    "analytics"
+  ],
+  "author": "Byron Samaripa <byron.samaripa@gmail.com>",
+  "contributors": [
+    {
+      "name": "Landon Bedell",
+      "email": "landon.bedell@colorado.edu"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bsamaripa/social-nest/issues"
+  },
+  "dependencies": {
+    "mocha": "~1.20.1",
+    "express": "~4.4.3",
+    "mongodb": "~1.4.6",
+    "angular": "~1.2.16",
+    "twit": "~1.1.15",
+    "request": "~2.36.0",
+    "soundclouder": "~0.7.10",
+    "echojs": "~0.1.4"
+  }
+}
