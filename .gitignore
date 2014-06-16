@@ -4,3 +4,4 @@
 *.tar
 *.zip
 node_modules/
+*/.bin/
