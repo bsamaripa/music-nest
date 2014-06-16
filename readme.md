@@ -18,3 +18,8 @@ Installation
 git clone git@github.com:bsamaripa/music-nest.git
 npm install
 ```
+
+Organization
+--------
+* Trello: https://trello.com/b/HQlHSoqo/nest
+* Waffle: https://waffle.io/bsamaripa/music-nest
