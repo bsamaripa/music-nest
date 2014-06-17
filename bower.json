@@ -1,0 +1,31 @@
+{
+  "name": "music-nest",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bsamaripa/music-nest",
+  "authors": [
+    "Byron Samaripa <byron.samaripa@gmail.com>"
+  ],
+  "description": "A twitter based musician information tool",
+  "main": "js/main.js",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "twitter",
+    "music",
+    "analytics"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.18",
+    "bootstrap": "~3.1.1"
+  }
+}
