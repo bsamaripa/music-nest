@@ -7,7 +7,7 @@ var express = require('express');
 var app = express();
 var mongo = require('mongoose');
 
-mongo.connect('mongodb://localhost/test');
+mongo.connect('mongodb://admin:48W_-Enjw_E-@127.6.219.2:27017');
 
 
 
