@@ -1,6 +1,15 @@
+/*
+    server.js: contains all of the node configuration.
+    as well as the database information
+*/
+
 var express = require('express');
 var app = express();
 var mongo = require('mongoose');
+
+mongo.connect('mongodb://localhost/test');
+
+
 
 app.get('*', function(req, res) {
 	res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
