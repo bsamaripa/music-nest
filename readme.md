@@ -17,6 +17,7 @@ Installation
 ```sh
 git clone git@github.com:bsamaripa/music-nest.git
 npm install
+bower install
 ```
 
 Organization

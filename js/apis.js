@@ -17,8 +17,8 @@ var twitter = new Twit({
 var echo = new Echojs({
     key: 'EME9AVQQ0MNGJXEP1'
 });
-
-// Echo Nest
+/*  Commented until we get it working
+// Sound Cloud
 var sc_client_id = 'fbadd9967f4268152fc4d886e04d0d00';
 var sc_client_secret = '97068322988badc778a8377d99f9f282';
 var sc_redirect_url = 'https://github.com/bsamaripa/social-nest';
@@ -28,13 +28,13 @@ sc.auth( code, function (error, access_token)
     if(error) 
     {
         console.error(e.message);
-    } 
+    }
     else 
     {
         console.log('access_token=' + access_token );
     }
 });
-
+*/
 twitter.get('followers/ids', { screen_name: 'byronsamaripa' },  function (err, data, response) { console.log(data) });
 
 echo('song/search').get({
