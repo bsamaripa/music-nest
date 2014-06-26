@@ -11,10 +11,29 @@
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 </head>
-<body ng-controller "mainController">
-    <div class=container>
-        <h1> Social Nest </h1>
-        <input type="search" name="search">
-    </div>
+<body ng-controller = "Controller">    
+        <h1> Music Nest </h1>
+        <form novalidate class="simple-form">
+	    	<!-- Search box -->
+	        <input type="text" ng-model="user.artist" placeholder="Type an Artist"/>
+	        <button ng-click="update(user)">GO!</button>
+        <!--http://stackoverflow.com/questions/4088467/get-value-in-input-text-box -->
+        </form>
+        <!-- Suggestion list -->
+        <div id="nest-list" class="row">
+        	<!-- loop suggests -->
+        	<ul>
+        		<li> {{master | json}}<li>
+        	</ul>
+        </div>
 </body>
+<script>
+	function Controller($scope) {
+		$scope.master = {};
+
+		$scope.update = function(user){
+			$scope.master = angular.copy(user);
+		};
+	}
+</script>
 </html>
