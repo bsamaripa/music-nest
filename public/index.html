@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html ng-app "music-nest">
 <head>
-	<meta charset=utf-8 />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Music Nest</title>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Music Nest</title>
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
-	<script src="js/main.js"></script>
-	<script src="js/controllers.js"></script>
-	<script src="libs/angular/angular.js"></script>
-	<!--[if IE]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<nav role="navigation" class="navbar navbar-default">
-	    <div class="navbar-header">
-	        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-	            <span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	        </button>
-	        <a href="#" class="navbar-brand">Music Nest</a>
-	    </div>
-	    <!-- Collection of nav links and other content for toggling -->
-	    <div id="navbarCollapse" class="collapse navbar-collapse">
-	        <ul class="nav navbar-nav">
-	            <li><a href="#">About</a></li>
-	        </ul>
-	    </div>
-	</nav>
+  <script src="libs/angular/angular.js"></script>
+  <script src="js/controllers.js"></script>
+  <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
 </head>
-<body ng-controller = "Controller">    
-        <h1> Music Nest </h1>
-        <form novalidate class="simple-form">
-	    	<!-- Search box -->
-	        <input type="text" ng-model="user.artist" placeholder="Type an Artist"/>
-	        <button ng-click="update(user)">GO!</button>
-        <!--http://stackoverflow.com/questions/4088467/get-value-in-input-text-box -->
-        </form>
-        <!-- Suggestion list -->
-        <div id="nest-list" class="row">
-        	<!-- loop suggests -->
-        	<ul>
-        		<li> {{master | json}}<li>
-        	</ul>
-        </div>
+<body>
+<!-- Navigation Bar -->
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Music Nest</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#about">About</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Content -->
+<div class="container">
+<div class="col-md-4">
+  <h1> Music Nest </h1>
+  <form novalidate class="simple-form">
+  <!-- Search box -->
+    <div class="input-group input" >
+      <input type="text" class="form-control" ng-model="user.artist" placeholder="Type an Artist"/>
+        <span class="input-group-btn">
+        	<button class="btn btn-default" ng-click="submit(user)" type="button">Go!</button>
+        </span>
+    </div>
+  </form>
+  <!-- Suggestion list -->
+  <div id="nest-list" class="row">
+    <!-- loop suggests -->
+    <ul>
+      <li> {{user.artist}}</li>
+    </ul>
+  </div>
+</div>
+</div>
 </body>
 </html>
