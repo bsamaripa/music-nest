@@ -6,6 +6,7 @@
 	<title>Music Nest</title>
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
 	<script src="js/main.js"></script>
+	<script src="js/controllers.js"></script>
 	<script src="libs/angular/angular.js"></script>
 	<!--[if IE]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -42,13 +43,4 @@
         	</ul>
         </div>
 </body>
-<script>
-	function Controller($scope) {
-		$scope.master = {};
-
-		$scope.update = function(user){
-			$scope.master = angular.copy(user);
-		};
-	}
-</script>
 </html>
