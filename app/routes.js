@@ -2,7 +2,7 @@ var Artist = require('./models/artist');
 var Echojs = require('echojs');
 var SC = require('soundclouder');
 var Twit = require('twit');
-var wait = require('wait.for');
+var Discogs = require('discogs');
 
 var echo = new Echojs({
   key: 'EME9AVQQ0MNGJXEP1'
@@ -13,10 +13,15 @@ var twit = new Twit({
   access_token: '17489216-Rzd3LvcnzZelpY9Xbnn6u3F5CW2Nifjci0wDiSRf0',
   access_token_secret: '0KQ8u8cOlz1PdcncWysO9NeCRfrGH0JxFZadmdOLxbXLl'
 });
+var disc = new Discogs({});
+/*
+disc.search('porter robinson', artist, function(err, artist) {
+  console.log(artist.searchresults.results[1]);
+});*/
 
 //  Functions to work with local Database and APIs
 function resolveArtistName(userInput) {
-
+  //echo('artist/biographies')
   //REFACTOR THIS SHIT ASAP!
   // Break up into variables, then set all at once at end
   // Make this the one create/update function
@@ -72,7 +77,7 @@ function createArtist(userInput) {
 }
 
 function updateArtist(userInput) {
-  // Use this to update existing artist object
+  var name = echo
 }
 
 module.exports = function(app) {

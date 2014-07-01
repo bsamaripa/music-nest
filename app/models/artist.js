@@ -13,6 +13,12 @@ var artistSchema = mongoose.Schema({
   facebookURL: String,
   soundcloudURL: String,
   relatedArtists: Array,
+  aliases: [alias]
+});
+
+var alias = new mongoose.Schema({
+  name: String,
+  aliasID: String
 });
 
 var Artist = mongoose.model('Artist', artistSchema);
