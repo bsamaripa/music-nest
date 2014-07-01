@@ -5,6 +5,8 @@ var methodOverride = require('method-override');
 var app = express();
 var port = process.env.PORT || 3000;
 var mongo = require('mongoose');
+var Echojs = require('echojs');
+var SC = require('soundclouder');
 
 mongo.connect('mongodb://localhost/musicnest');
 var db = mongo.connection;
@@ -25,10 +27,14 @@ app.use(methodOverride());
 var artistSchema = mongo.Schema({
   name: String,
   echonestID: String,
+  artistPic: String,
   twitterID: String,
   facebookID: String,
   soundcloudID: String,
-
+  twitterURL: String,
+  facebookURL: String,
+  soundcloudURL: String,
+  relatedArtists: Array
 });
 
 artistSchema.methods.update = function() {

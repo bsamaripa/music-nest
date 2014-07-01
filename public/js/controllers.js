@@ -1,9 +1,11 @@
 var musicnest = angular.module('musicnest', []);
 
-musicnest.controller('artistInput', function($scope) {
+musicnest.controller('userInput', function($scope) {
   $scope.master = {};
+  var artistInput;
 
   $scope.submit = function(user) {
-    $scope.master = angular.copy(user);
+    $scope.artistInput = user;
   };
+
 });
