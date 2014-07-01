@@ -5,9 +5,7 @@ var methodOverride = require('method-override');
 var app = express();
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
-var dbconf = require('./config/db')
-var Echojs = require('echojs');
-var SC = require('soundclouder');
+var dbconf = require('./config/db');
 
 //  Database Connection
 mongoose.connect(dbconf.url);
@@ -17,6 +15,7 @@ db.once('open', function callback() {
   console.log("Connected to MongoDB!");
 });
 
+//  Express File Handling
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
@@ -25,7 +24,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-//require('./app/routes.js')(app);
+//  Routes
+require('./app/routes')(app);
 
 app.listen(port);
 console.log('Listening on port ' + port);

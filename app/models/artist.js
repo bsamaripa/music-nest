@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 
 //  Defines the template all artists are stored as
-var artistSchema = mongo.Schema({
+var artistSchema = mongoose.Schema({
   name: String,
   echonestID: String,
   artistDesc: String,
   artistPic: String,
-  twitterID: String,
   facebookID: String,
+  twitterID: String,
   soundcloudID: String,
   twitterURL: String,
   facebookURL: String,
@@ -15,8 +15,6 @@ var artistSchema = mongo.Schema({
   relatedArtists: Array,
 });
 
-artistSchema.methods.update = function() {
-  // Update Entry for schema
-};
+var Artist = mongoose.model('Artist', artistSchema);
 
-module.exports = mongoose.model('Artist', String);
+module.exports = Artist;
