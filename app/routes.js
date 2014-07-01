@@ -14,25 +14,35 @@ var twit = new Twit({
   access_token_secret: '0KQ8u8cOlz1PdcncWysO9NeCRfrGH0JxFZadmdOLxbXLl'
 });
 
+//  Functions to work with local Database and APIs
 function resolveArtistName(userInput) {
+
+  //REFACTOR THIS SHIT ASAP!
+  // Break up into variables, then set all at once at end
+  // Make this the one create/update function
+  var output;
   echo('artist/search').get({
     name: userInput,
   }, function(err, json) {
     // Search id used in everything below
     var searchID = json.response.artists[0].id;
-
     echo('artist/profile').get({
       id: searchID,
       bucket: ['id:facebook', 'id:twitter']
     }, function(err, json) {
-      console.log(json.response.artist.foreign_ids[1].foreign_id);
-      Artist.create({
+      output = json.response.artist;
+      console.log(searchID);
+      Artist.update({
+        echonestID: searchID
+      }, {
         name: json.response.artist.name,
         echonestID: searchID,
-        //facebookID: json.response.artist.foreign_ids[0].foreign_id,
-        //twitterID: json.response.artist.foreign_ids[1].foreign_id
+        facebookID: json.response.artist.foreign_ids[0].foreign_id,
+        twitterID: json.response.artist.foreign_ids[1].foreign_id
+      }, {
+        upsert: true
       });
-      //  Outputs the current set of artists
+      console.log(Artist.echonestID);
       Artist.find(function(err, kittens) {
         if (err) return console.error(err);
         console.log(kittens);
@@ -40,7 +50,26 @@ function resolveArtistName(userInput) {
     });
   });
 }
-resolveArtistName('eric prydz');
+resolveArtistName('porter robinson');
+
+function wrangler(userInput) {
+  var temp = resolveArtistName(userInput);
+  createArtist(temp);
+  Artist.find(function(err, kittens) {
+    if (err) return console.error(err);
+    console.log(kittens);
+  });
+}
+
+function createArtist(userInput) {
+  console.log(userInput);
+  Artist.create({
+    name: userInput.artist.name,
+    echonestID: searchID,
+    facebookID: userInput.artist.foreign_ids[0].foreign_id,
+    twitterID: userInput.artist.foreign_ids[1].foreign_id
+  });
+}
 
 function updateArtist(userInput) {
   // Use this to update existing artist object
