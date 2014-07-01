@@ -27,30 +27,51 @@
       <ul class="nav navbar-nav">
         <li><a href="#about">About</a></li>
       </ul>
+      <!-- Search Bar -->
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="user.artist" placeholder="Type an Artist"/>
+          <button type="submit" class="btn btn-default" ng-click="submit(user); user.artist=''">Go!</button>
+        </div>
+    </form>
     </div>
   </div>
 </div>
-<!-- Content -->
+<!-- User Description  -->
+<div class="jumbotron">
+    <div class="container">
+      <h1>Fetch artist name from DB</h1>
+      <p>Description and picture from DB</p>
+  </div>
+</div>
+<!-- Columns -->
 <div class="container">
-<div class="col-md-4">
-  <h1> Music Nest </h1>
-  <form novalidate class="simple-form">
-  <!-- Search box -->
-    <div class="input-group input" >
-      <input type="text" class="form-control" ng-model="user.artist" placeholder="Type an Artist"/>
-        <span class="input-group-btn">
-        	<button class="btn btn-default" ng-click="submit(user)" type="button">Go!</button>
-        </span>
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Social Media</h2>
+      <ul>
+        <li>FacebookURL</li>
+        <li>TwitterURL</li>
+        <li>SoundcloudURL</li>
+      </ul>
     </div>
-  </form>
-  <!-- Suggestion list -->
-  <div id="nest-list" class="row">
-    <!-- loop suggests -->
-    <ul>
-      <li> {{user.artistInput}}</li>
-    </ul>
+    <div class="col-md-4">
+      <h2>Related Artists</h2>
+      <ul>
+        <li>Related Artists 1-5 from DB</li>
+      </ul>
+   </div>
+    <div class="col-md-4">
+      <h2>Soundcloud Player?</h2>
+      <p>If I can figure out how, embed a soundcloud player here. Either that or embed a twitter widget of their latest tweets</p>
+    </div>
   </div>
-</div>
-</div>
+  <hr>
+  <footer>
+    <p>&copy; Music Nest 2014</p>
+  </footer>
+</div> <!-- /container -->
 </body>
+
 </html>

@@ -3,7 +3,7 @@ var SC = require('soundclouder');
 var echo = new Echojs({
   key: 'EME9AVQQ0MNGJXEP1'
 });
-//resolveArtistName();
+resolveArtistName();
 
 function resolveArtistName() {
   echo('artist/search').get({

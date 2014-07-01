@@ -4,12 +4,14 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var app = express();
 var port = process.env.PORT || 3000;
-var mongo = require('mongoose');
+var mongoose = require('mongoose');
+var dbconf = require('./config/db')
 var Echojs = require('echojs');
 var SC = require('soundclouder');
 
-mongo.connect('mongodb://localhost/musicnest');
-var db = mongo.connection;
+//  Database Connection
+mongoose.connect(dbconf.url);
+var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
   console.log("Connected to MongoDB!");
@@ -23,24 +25,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-//  Defines the template all artists are stored as
-var artistSchema = mongo.Schema({
-  name: String,
-  echonestID: String,
-  artistPic: String,
-  twitterID: String,
-  facebookID: String,
-  soundcloudID: String,
-  twitterURL: String,
-  facebookURL: String,
-  soundcloudURL: String,
-  relatedArtists: Array
-});
-
-artistSchema.methods.update = function() {
-  // Update Entry for schema
-}
-
+//require('./app/routes.js')(app);
 
 app.listen(port);
 console.log('Listening on port ' + port);
