@@ -126,18 +126,58 @@ function discogs(userInput) {
 }
 
 module.exports = function(app) {
-
   // api ---------------------------------------------------------------------
-  // create todo and send back all todos after creation
+  app.get('/api/artists', function(req, res) {
+
+    // use mongoose to get all todos in the database
+    Artist.findOne({
+      name: req.body.text
+    }, function(err, artist) {
+      console.log("GET IT!! ");
+      if (err) {
+        res.send(err);
+        console.log("error");
+      }
+      res.json(artist); // return all todos in JSON format
+    });
+  });
+  // Searches for artist
   app.post('/api/artists', function(req, res) {
     console.log("Querying DB for " + req.body.text);
-    updateArtist(req.body.text);
+    var userInput = req.body.text;
+    var thisArtist;
+    var artistID; // Used inside thisArtist
+    thisArtist = Artist.findOne({
+      name: userInput,
+    }, function(err, results) {
+      if (results === null) { // If no results
+        console.log(userInput + " not found locally");
+        // Create empty, return id
+        thisArtist = new Artist({
+          name: userInput
+        });
+        thisArtist.save(function(err, artist) {
+          artistID = artist.id;
+          console.log("inside " + artistID);
+        });
 
-    Artist.find(function(err, artists) {
-      console.log("SEND IT BACK! ");
-      if (err)
+      } else {
+        artistID = results._id;
+        console.log("Results: " + results);
+      }
+      echoNest(userInput, artistID);
+
+      // SCOPE ENDS HERE
+    });
+
+    Artist.findOne({
+      name: req.body.text
+    }, function(err, artist) {
+      if (err) {
         res.send(err);
-      res.json(artists);
+        console.log("error");
+      }
+      res.json(artist);
     });
   });
 
