@@ -92,7 +92,7 @@ function updateArtist(userInput) {
 }
 
 function echoNest(userInput, outputID) {
-  echo('artist/profile').get({
+  echo('artist/search').get({
     name: userInput,
     fuzzy_match: true,
     bucket: [
@@ -131,17 +131,14 @@ module.exports = function(app) {
   // create todo and send back all todos after creation
   app.post('/api/artists', function(req, res) {
     console.log("Querying DB for " + req.body.text);
-    //resolveArtistName(req.body.text);
     updateArtist(req.body.text);
-    /*
-    // create an artist
-    Artist.create({
-      text: req.body.text,
-      done: false
-    }, function(err, todo) {
+
+    Artist.find(function(err, artists) {
+      console.log("SEND IT BACK! ");
       if (err)
         res.send(err);
-    });*/
+      res.json(artists);
+    });
   });
 
   // application  ------------------------------------------------------------

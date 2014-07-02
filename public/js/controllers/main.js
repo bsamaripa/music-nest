@@ -14,14 +14,14 @@ angular.module('artistController', [])
     if ($scope.formData.text !== undefined) {
       // call the create function from our service (returns a promise object)
       Artists.create($scope.formData)
-      // if successful creation, call our get function to get all the new todos
+      // if successful creation, call our get function to get all the new artists
       .success(function(data) {
-        console.log(data);
         $scope.loading = false;
-        //$scope.formData = {}; // clear search form
+        $scope.formData = {}; // clear search form
         $scope.artist = data; // assign our new list of todos
+        $scope.$$phase || $scope.$apply(data); // tells angualr to update
       });
-      $scope.formData = {}; // clear search form
+      //$scope.formData = {}; // clear search form
     }
   };
 });
