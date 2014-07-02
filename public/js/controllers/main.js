@@ -1,48 +1,27 @@
 angular.module('artistController', [])
 
-.controller('mainController', function($scope, $http) {
+// inject the Artist service factory into our controller
+.controller('mainController', function($scope, $http, Artists) {
   $scope.formData = {};
+  $scope.loading = true;
 
-  // when landing on the page, get first artist and show it
-  $http.get('/api/artists')
-    .success(function(data) {
-      $scope.artists = data;
-    })
-    .error(function(data) {
-      console.log('Error: ' + data);
-    });
-
-  // Fetch specific artist
-  $http.get('/api/artists')
-    .success(function(data) {
-      $scope.formData = {}; // clear form
-      $scope.artists = data;
-    })
-    .error(function(data) {
-      console.log('Error: ' + data);
-    });
-
+  // Query ==================================================================
   // when submitting the add form, send the text to the node API
-  $scope.createArtist = function() {
-    $http.post('/api/artists', $scope.formData)
+  $scope.searchArtist = function() {
+    $scope.loading = true;
+    // validate the formData to make sure that something is there
+    // if form is empty, nothing will happen
+    if ($scope.formData.text !== undefined) {
+      // call the create function from our service (returns a promise object)
+      Artists.create($scope.formData)
+      // if successful creation, call our get function to get all the new todos
       .success(function(data) {
-        $scope.formData = {}; // clear the form so our user is ready to enter another
-        $scope.artists = data;
-      })
-      .error(function(data) {
-        console.log('Error: ' + data);
+        console.log(data);
+        $scope.loading = false;
+        //$scope.formData = {}; // clear search form
+        $scope.artist = data; // assign our new list of todos
       });
+      $scope.formData = {}; // clear search form
+    }
   };
-
-  // delete a artist after checking it
-  $scope.deleteArtist = function(id) {
-    $http.delete('/api/artists/' + id)
-      .success(function(data) {
-        $scope.artists = data;
-      })
-      .error(function(data) {
-        console.log('Error: ' + data);
-      });
-  };
-
 });

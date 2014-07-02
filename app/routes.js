@@ -1,7 +1,8 @@
 var Artist = require('./models/artist');
 var Echojs = require('echojs');
-var SC = require('soundclouder');
 var Twit = require('twit');
+var FB = require('fb')
+var SC = require('soundclouder');
 var Discogs = require('discogs');
 
 var echo = new Echojs({
@@ -13,8 +14,7 @@ var twit = new Twit({
   access_token: '17489216-Rzd3LvcnzZelpY9Xbnn6u3F5CW2Nifjci0wDiSRf0',
   access_token_secret: '0KQ8u8cOlz1PdcncWysO9NeCRfrGH0JxFZadmdOLxbXLl'
 });
-var disc = new Discogs({});
-/*
+/*var disc = new Discogs({});
 disc.search('porter robinson', artist, function(err, artist) {
   console.log(artist.searchresults.results[1]);
 });*/
@@ -55,47 +55,85 @@ function resolveArtistName(userInput) {
     });
   });
 }
-resolveArtistName('porter robinson');
 
-function wrangler(userInput) {
-  var temp = resolveArtistName(userInput);
-  createArtist(temp);
-  Artist.find(function(err, kittens) {
-    if (err) return console.error(err);
-    console.log(kittens);
-  });
-}
-
-function createArtist(userInput) {
-  console.log(userInput);
-  Artist.create({
-    name: userInput.artist.name,
-    echonestID: searchID,
-    facebookID: userInput.artist.foreign_ids[0].foreign_id,
-    twitterID: userInput.artist.foreign_ids[1].foreign_id
-  });
-}
-
+// One Function to RULE DEM ALL!
+//  Checks DB for existing user
+//  If found, select
+//  Else, Check echonest
+//    If not found, ERROR OUT
+//    Else Create
+//  Update/fill profile
+//  Return it to page
 function updateArtist(userInput) {
-  var name = echo
+  var thisArtist;
+  var artistID; // Used inside thisArtist
+  thisArtist = Artist.findOne({
+    name: userInput,
+  }, function(err, results) {
+    if (results === null) { // If no results
+      console.log(userInput + " not found locally");
+      // Create empty, return id
+      thisArtist = new Artist({
+        name: userInput
+      });
+      thisArtist.save(function(err, artist) {
+        artistID = artist.id;
+        console.log("inside " + artistID);
+      });
+
+    } else {
+      artistID = results._id;
+      console.log("Results: " + results);
+    }
+    echoNest(userInput, artistID);
+
+    // SCOPE ENDS HERE
+  });
+}
+
+function echoNest(userInput, outputID) {
+  echo('artist/profile').get({
+    name: userInput,
+    fuzzy_match: true,
+    bucket: [
+      'biographies',
+      'urls',
+    ]
+  }, function(err, json) {
+    if (json.response.artists !== '') {
+      console.log(json.response);
+    }
+  });
+}
+
+function soundcloud(userInput) {
+  // All soundcloud related queries
+}
+
+function facebook(userInput) {
+  // All facebook related queries
+
+}
+
+function twitter(userInput) {
+  // All twitter related queries
+
+}
+
+function discogs(userInput) {
+  // All discogs related queries
+
 }
 
 module.exports = function(app) {
 
   // api ---------------------------------------------------------------------
-  // get all artists
-  app.get('/api/artist', function(req, res) {
-    // use mongoose to get all artists in the database
-    Artist.find(function(err, artists) {
-      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-      if (err)
-        res.send(err)
-      res.json(artists); // return all artists in JSON format
-    });
-  });
   // create todo and send back all todos after creation
-  app.post('/api/todos', function(req, res) {
-
+  app.post('/api/artists', function(req, res) {
+    console.log("Querying DB for " + req.body.text);
+    //resolveArtistName(req.body.text);
+    updateArtist(req.body.text);
+    /*
     // create an artist
     Artist.create({
       text: req.body.text,
@@ -103,23 +141,7 @@ module.exports = function(app) {
     }, function(err, todo) {
       if (err)
         res.send(err);
-    });
-  });
-
-  // delete an artist
-  app.delete('/api/artist/:artist_id', function(req, res) {
-    artist.remove({
-      _id: req.params.artist_id
-    }, function(err, artist) {
-      if (err)
-        res.send(err);
-      // get and return all the artists after you create another
-      Artist.find(function(err, artists) {
-        if (err)
-          res.send(err)
-        res.json(artists);
-      });
-    });
+    });*/
   });
 
   // application  ------------------------------------------------------------

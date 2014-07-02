@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html ng-app "music-nest">
+<html ng-app="musicnest">
 <head>
   <meta charset=utf-8 />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Music Nest</title>
-    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+  <script src="libs/jquery/dist/jquery.min.js"></script>
+  <script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="libs/angular/angular.js"></script>
-  <script src="js/controllers.js"></script>
+  <script src="js/controllers/main.js"></script>
+  <script src="js/services/musicnest.js"></script>
+  <script src="js/core.js"></script>
   <!--<script src="js/main.js"></script>-->
   <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 </head>
 <body>
+<!-- Sets Controller -->
+<div ng-controller="mainController">
 <!-- Navigation Bar -->
 <div class="navbar navbar-inverse" role="navigation">
   <div class="container">
@@ -30,8 +36,8 @@
       <!-- Search Bar -->
       <form class="navbar-form navbar-right" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" ng-model="user.artist" placeholder="Type an Artist"/>
-          <button type="submit" class="btn btn-default" ng-click="submit(user); user.artist=''">Go!</button>
+          <input type="text" class="form-control" ng-model="formData.text" placeholder="Type an Artist"/>
+          <button type="submit" class="btn btn-default" ng-click="searchArtist(formData)">Go!</button>
         </div>
     </form>
     </div>
@@ -39,9 +45,9 @@
 </div>
 <!-- User Description  -->
 <div class="jumbotron">
-    <div class="container">
-      <h1>Fetch artist name from DB</h1>
-      <p>Description and picture from DB, artist must be spelled correctly or else it will not return a result</p>
+  <div class="container">
+    <h1>{{artists.name}}</h1>
+    <p>{{artists.artistDesc}}</p>
   </div>
 </div>
 <!-- Columns -->
@@ -51,19 +57,20 @@
     <div class="col-md-4">
       <h2>Social Media</h2>
       <ul>
-        <li>FacebookURL</li>
-        <li>TwitterURL</li>
-        <li>SoundcloudURL</li>
+        <li>{{artists.facebookURL}}</li>
+        <li>{{artists.twitterURL}}</li>
+        <li>{{artists.soundcloudURL}}</li>
       </ul>
     </div>
     <div class="col-md-4">
       <h2>Related Artists</h2>
       <ul>
         <li>Related Artists 1-5 from DB</li>
+        <li>USE NG Repeat to pull from DB</li>
       </ul>
    </div>
     <div class="col-md-4">
-      <h2>Soundcloud Player?</h2>
+      <h2>Latest Releases?</h2>
       <p>If I can figure out how, embed a soundcloud player here. Either that or embed a twitter widget of their latest tweets</p>
     </div>
   </div>
@@ -71,7 +78,9 @@
   <footer>
     <p>&copy; Music Nest 2014</p>
   </footer>
+
 </div> <!-- /container -->
+</div><!-- /controller -->
 </body>
 
 </html>
