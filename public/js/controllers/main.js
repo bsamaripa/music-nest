@@ -13,15 +13,16 @@ angular.module('artistController', [])
     // if form is empty, nothing will happen
     if ($scope.formData.text !== undefined) {
       // call the create function from our service (returns a promise object)
-      Artists.create($scope.formData)
+      var thisGuy = Artists.create($scope.formData)
       // if successful creation, call our get function to get all the new artists
-      .success(function(data) {
+      .success(function(thisGuy) {
         $scope.loading = false;
         $scope.formData = {}; // clear search form
-        Artists.get()
+        $scope.artist = thisGuy;
+        /*        Artists.get()
           .success(function(data) {
             $scope.artist = data;
-          });
+          });*/
       });
     }
   };

@@ -6,6 +6,7 @@ angular.module('artistService', [])
       return $http.get('/api/artists');
     },
     create: function(artistData) {
+      // Check if result valid, if not create. Then return only relevant after
       return $http.post('/api/artists', artistData);
     }
   };

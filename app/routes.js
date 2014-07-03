@@ -1,9 +1,10 @@
 var Artist = require('./models/artist');
 var Echojs = require('echojs');
 var Twit = require('twit');
-var FB = require('fb')
-var SC = require('soundclouder');
-var Discogs = require('discogs');
+var assert = require('chai').assert;
+//var FB = require('fb');
+//var SC = require('soundclouder');
+//var Discogs = require('discogs');
 
 var echo = new Echojs({
   key: 'EME9AVQQ0MNGJXEP1'
@@ -14,115 +15,38 @@ var twit = new Twit({
   access_token: '17489216-Rzd3LvcnzZelpY9Xbnn6u3F5CW2Nifjci0wDiSRf0',
   access_token_secret: '0KQ8u8cOlz1PdcncWysO9NeCRfrGH0JxFZadmdOLxbXLl'
 });
-/*var disc = new Discogs({});
-disc.search('porter robinson', artist, function(err, artist) {
-  console.log(artist.searchresults.results[1]);
-});*/
-
-//  Functions to work with local Database and APIs
-function resolveArtistName(userInput) {
-  //echo('artist/biographies')
-  //REFACTOR THIS SHIT ASAP!
-  // Break up into variables, then set all at once at end
-  // Make this the one create/update function
-  var output;
-  echo('artist/search').get({
-    name: userInput,
-  }, function(err, json) {
-    // Search id used in everything below
-    var searchID = json.response.artists[0].id;
-    echo('artist/profile').get({
-      id: searchID,
-      bucket: ['id:facebook', 'id:twitter']
-    }, function(err, json) {
-      output = json.response.artist;
-      console.log(searchID);
-      Artist.update({
-        echonestID: searchID
-      }, {
-        name: json.response.artist.name,
-        echonestID: searchID,
-        facebookID: json.response.artist.foreign_ids[0].foreign_id,
-        twitterID: json.response.artist.foreign_ids[1].foreign_id
-      }, {
-        upsert: true
-      });
-      console.log(Artist.echonestID);
-      Artist.find(function(err, kittens) {
-        if (err) return console.error(err);
-        console.log(kittens);
-      });
-    });
-  });
-}
-
-// One Function to RULE DEM ALL!
-//  Checks DB for existing user
-//  If found, select
-//  Else, Check echonest
-//    If not found, ERROR OUT
-//    Else Create
-//  Update/fill profile
-//  Return it to page
-function updateArtist(userInput) {
-  var thisArtist;
-  var artistID; // Used inside thisArtist
-  thisArtist = Artist.findOne({
-    name: userInput,
-  }, function(err, results) {
-    if (results === null) { // If no results
-      console.log(userInput + " not found locally");
-      // Create empty, return id
-      thisArtist = new Artist({
-        name: userInput
-      });
-      thisArtist.save(function(err, artist) {
-        artistID = artist.id;
-        console.log("inside " + artistID);
-      });
-
-    } else {
-      artistID = results._id;
-      console.log("Results: " + results);
-    }
-    echoNest(userInput, artistID);
-
-    // SCOPE ENDS HERE
-  });
-}
 
 function echoNest(userInput, outputID) {
-  echo('artist/search').get({
+  echo('artist/search').get({ // Profile Search
     name: userInput,
-    fuzzy_match: true,
-    bucket: [
-      'biographies',
-      'urls',
-    ]
+    fuzzy_match: true
   }, function(err, json) {
     if (json.response.artists !== '') {
-      console.log(json.response);
+      console.log("Response from Echonest!");
+      var searchID = json.response.artists[0].id;
+      echo('artist/profile').get({
+        id: searchID,
+        bucket: [
+          'biographies',
+          'urls',
+          'images',
+        ]
+      }, function(err, json) {
+        // Updates artist in DB
+        console.log("Updating artist...");
+        Artist.update({
+          _id: outputID
+        }, {
+          echonestID: searchID,
+          artistPic: json.response.artist.images[0].url,
+        }, Artist.find(function(err, kittens) {
+          console.log("Updated!");
+          if (err) return console.error(err);
+          //console.log(kittens);
+        }));
+      });
     }
   });
-}
-
-function soundcloud(userInput) {
-  // All soundcloud related queries
-}
-
-function facebook(userInput) {
-  // All facebook related queries
-
-}
-
-function twitter(userInput) {
-  // All twitter related queries
-
-}
-
-function discogs(userInput) {
-  // All discogs related queries
-
 }
 
 module.exports = function(app) {
@@ -130,10 +54,7 @@ module.exports = function(app) {
   app.get('/api/artists', function(req, res) {
 
     // use mongoose to get all todos in the database
-    Artist.findOne({
-      name: req.body.text
-    }, function(err, artist) {
-      console.log("GET IT!! ");
+    Artist.find(function(err, artist) {
       if (err) {
         res.send(err);
         console.log("error");
@@ -141,43 +62,86 @@ module.exports = function(app) {
       res.json(artist); // return all todos in JSON format
     });
   });
+
   // Searches for artist
   app.post('/api/artists', function(req, res) {
     console.log("Querying DB for " + req.body.text);
     var userInput = req.body.text;
     var thisArtist;
     var artistID; // Used inside thisArtist
-    thisArtist = Artist.findOne({
+
+    // Queries echonest for artist name, used internally always
+    echo('artist/search').get({ // Profile Search
       name: userInput,
-    }, function(err, results) {
-      if (results === null) { // If no results
-        console.log(userInput + " not found locally");
-        // Create empty, return id
-        thisArtist = new Artist({
-          name: userInput
-        });
-        thisArtist.save(function(err, artist) {
-          artistID = artist.id;
-          console.log("inside " + artistID);
-        });
-
-      } else {
-        artistID = results._id;
-        console.log("Results: " + results);
+      fuzzy_match: true
+    }, function(err, json) {
+      if (JSON.stringify(json.response.artists) === '[]') {
+        //  Checks if artists category is valid
+        console.log("Bad Search terms");
+        return new Error("Echonest failed to find " + userInput);
       }
-      echoNest(userInput, artistID);
+      var artistName = json.response.artists[0].name;
+      thisArtist = Artist.findOne({
+        name: artistName,
+      }, function(err, results) {
+        if (results === null) { // If no results
+          console.log("Not Found: " + userInput + " not found locally");
+          // Create empty, return id
+          echo('artist/search').get({ // Profile Search
+            name: userInput,
+            fuzzy_match: true
+          }, function(err, json) {
+            if (json.response === undefined) {
+              console.log("Bad Search terms");
+              return new Error("Echonest failed to find " + userInput);
+            }
+            if (json.response.artists !== '') {
+              console.log("Response from Echonest!")
+              var searchID = json.response.artists[0].id;
+              echo('artist/profile').get({
+                id: searchID,
+                bucket: [
+                  'biographies',
+                  'urls',
+                  'images',
+                  'id:facebook',
+                  'id:twitter'
+                ]
+              }, function(err, json) {
+                // Artist should be valid before you get here
+                var fb = json.response.artist.foreign_ids[1];
+                console.log("Facebook: " + fb);
+                thisArtist = new Artist({
+                  name: json.response.artist.name,
+                  echonestID: searchID,
+                  artistPic: json.response.artist.images[0].url,
+                  artistDesc: json.response.artist.biographies[0].text,
+                  facebookURL: "http://www.facebook.com",
+                  twitterURL: "http://www.twitter.com/",
+                  soundcloudURL: "http://www.soundcloud.com"
+                }, echoNest(userInput, artistID));
+                thisArtist.save(function(err, artist) {
+                  artistID = artist.id;
+                  console.log("Creating new entry for " + userInput);
+                });
+              });
+            }
+          });
 
-      // SCOPE ENDS HERE
-    });
+        } else {
+          artistID = results._id;
+          console.log("Updating entry! " + artistID);
+          echoNest(userInput, artistID);
+        }
 
-    Artist.findOne({
-      name: req.body.text
-    }, function(err, artist) {
-      if (err) {
-        res.send(err);
-        console.log("error");
-      }
-      res.json(artist);
+        Artist.findById(artistID, function(err, artist) {
+          if (err) {
+            res.send(err);
+            console.log("error");
+          }
+          res.json(artist);
+        });
+      });
     });
   });
 

@@ -46,8 +46,8 @@
 <!-- User Description  -->
 <div class="jumbotron">
   <div class="container">
-    <h1>{{artist}}</h1>
-    <p>{{artists.artistDesc}}</p>
+    <h1>{{artist.name}}</h1>
+    <p>{{artist.artistDesc}}</p>
   </div>
 </div>
 <!-- Columns -->
@@ -57,22 +57,14 @@
     <div class="col-md-4">
       <h2>Social Media</h2>
       <ul>
-        <li>{{artists.facebookURL}}</li>
-        <li>{{artists.twitterURL}}</li>
-        <li>{{artists.soundcloudURL}}</li>
+        <li><a href={{artists.facebookURL}}>Facebook</a></li>
+        <li><a href={{artists.twitterURL}}>Twitter</a></li>
+        <li><a href={{artists.soundcloudURL}}>Soundcloud</a></li>
       </ul>
     </div>
-    <div class="col-md-4">
-      <h2>Related Artists</h2>
-      <ul>
-        <li>Related Artists 1-5 from DB</li>
-        <li>USE NG Repeat to pull from DB</li>
-      </ul>
+    <div class="col-md-8">
+    <img src={{artist.artistPic}}></img>
    </div>
-    <div class="col-md-4">
-      <h2>Latest Releases?</h2>
-      <p>If I can figure out how, embed a soundcloud player here. Either that or embed a twitter widget of their latest tweets</p>
-    </div>
   </div>
   <hr>
   <footer>
