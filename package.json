@@ -4,7 +4,7 @@
   "description": "A twitter based musician information tool",
   "main": "js/server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/*"
   },
   "repository": {
     "type": "git",
@@ -26,8 +26,10 @@
   "bugs": {
     "url": "https://github.com/bsamaripa/social-nest/issues"
   },
+  "scripts": {
+    "test": "mocha test/*"
+  },
   "dependencies": {
-    "mocha": "~1.20.1",
     "express": "~4.4.3",
     "morgan": "~1.1.1",
     "body-parser": "~1.4.3",
@@ -39,7 +41,10 @@
     "mongoose": "~3.8.12",
     "wait.for": "~0.6.4",
     "discogs": "~0.4.4",
-    "fb": "~0.7.0",
-    "chai": "~1.9.1"
+    "fb": "~0.7.0"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.20.1"
   }
 }
