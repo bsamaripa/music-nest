@@ -1,14 +1,15 @@
 {
-  "name": "music-nest",
+  "name": "Music Nest",
   "version": "0.1.0",
   "description": "A twitter based musician information tool",
   "main": "js/server.js",
+  "homepage": "http://github.com/bsamaripa/music-nest",
   "scripts": {
-    "test": "mocha test/*"
+    "test": "grunt mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bsamaripa/social-nest.git"
+    "url": "git://github.com/bsamaripa/music-nest.git"
   },
   "keywords": [
     "twitter",
@@ -24,7 +25,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bsamaripa/social-nest/issues"
+    "url": "https://github.com/bsamaripa/music-nest/issues"
   },
   "dependencies": {
     "async": "^0.9.0",
@@ -47,6 +48,10 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.5.1",
-    "mocha": "^1.21.4"
+    "grunt-contrib-yuidoc": "^0.5.2",
+    "grunt-mocha": "^0.4.11",
+    "mocha": "^1.21.4",
+    "uglify-js": "^2.4.15",
+    "yuidocjs": "^0.3.50"
   }
 }

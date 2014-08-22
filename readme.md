@@ -10,8 +10,8 @@ Team
 
 Requirements
 ------
-Nodejs
-mongodb
+* Nodejs 0.10.X
+* mongodb
 
 Installation
 --------
@@ -24,7 +24,6 @@ node server.js
 
 Organization
 --------
-* Trello: https://trello.com/b/HQlHSoqo/nest
 * Waffle: https://waffle.io/bsamaripa/music-nest
 
 Documentation
