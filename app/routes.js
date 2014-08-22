@@ -1,4 +1,5 @@
 var Artist = require('./models/artist');
+var Keys = require('../config/apis');
 var Echojs = require('echojs');
 var Twit = require('twit');
 var assert = require('chai').assert;
@@ -7,13 +8,13 @@ var assert = require('chai').assert;
 //var Discogs = require('discogs');
 
 var echo = new Echojs({
-  key: 'EME9AVQQ0MNGJXEP1'
+  key: Keys.echoKey
 });
 var twit = new Twit({
-  consumer_key: 'th59UDh4FWWvVK3GHJFhYrCLR',
-  consumer_secret: 'tv1afS4lcLuKiPkeEN2NqBZDp21UMM1vYiwfqu3GtYx23QDGg7',
-  access_token: '17489216-Rzd3LvcnzZelpY9Xbnn6u3F5CW2Nifjci0wDiSRf0',
-  access_token_secret: '0KQ8u8cOlz1PdcncWysO9NeCRfrGH0JxFZadmdOLxbXLl'
+  consumer_key: Keys.twConsumerKey,
+  consumer_secret: Keys.twConsumerSecret,
+  access_token: Keys.twAccessToken,
+  access_token_secret: Keys.twAccessTokenSecret
 });
 
 function echoNest(userInput, outputID) {
