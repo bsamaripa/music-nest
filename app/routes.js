@@ -1,5 +1,5 @@
 var Artist = require('./models/artist');
-var Keys = require('../config/apis');
+var Keys = require('../config/apis'); //  File for API Keys, get your own!
 var Echojs = require('echojs');
 var Twit = require('twit');
 var assert = require('chai').assert;
@@ -43,7 +43,6 @@ function echoNest(userInput, outputID) {
         }, Artist.find(function(err, kittens) {
           console.log("Updated!");
           if (err) return console.error(err);
-          //console.log(kittens);
         }));
       });
     }
@@ -52,7 +51,7 @@ function echoNest(userInput, outputID) {
 
 module.exports = function(app) {
   // api ---------------------------------------------------------------------
-  app.get('/api/artists', function(req, res) {
+  app.get('/api/v1/artists', function(req, res) {
 
     // use mongoose to get all todos in the database
     Artist.find(function(err, artist) {
@@ -65,7 +64,7 @@ module.exports = function(app) {
   });
 
   // Searches for artist
-  app.post('/api/artists', function(req, res) {
+  app.post('/api/v1/artists', function(req, res) {
     console.log("Querying DB for " + req.body.text);
     var userInput = req.body.text;
     var thisArtist;
@@ -97,7 +96,7 @@ module.exports = function(app) {
               return new Error("Echonest failed to find " + userInput);
             }
             if (json.response.artists !== '') {
-              console.log("Response from Echonest!")
+              console.log("Response from Echonest!");
               var searchID = json.response.artists[0].id;
               echo('artist/profile').get({
                 id: searchID,
