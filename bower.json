@@ -5,7 +5,7 @@
   "authors": [
     "Byron Samaripa <byron.samaripa@gmail.com>"
   ],
-  "description": "A twitter based musician information tool",
+  "description": "A music artist information tool",
   "main": "js/main.js",
   "moduleType": [
     "amd",
@@ -25,8 +25,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.2.22",
-    "angular-routing": "~0.1.2",
-    "bootstrap": "~3.2.0"
+    "angular": "~1.3.2",
+    "bootstrap": "~3.3.1"
   }
 }
