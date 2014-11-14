@@ -1,12 +1,18 @@
-var Artist = require('./models/artist');
-var Keys = require('../config/apis'); //  File for API Keys, get your own!
-var Echojs = require('echojs');
-var Twit = require('twit');
-var assert = require('chai').assert;
+// routes.js
+//================== Variables ================================================
+var express     = require('express'),
+    Artist      = require('./models/artist'),
+    update      = require('./udate'),
+    Keys        = require('../config/apis'),
+    Echojs      = require('echojs'),
+    Twit        = require('twit'),
+    Assert      = require('chai').assert;
+// TODO: Implement FB, SC, and Discogs
 //var FB = require('fb');
 //var SC = require('soundclouder');
 //var Discogs = require('discogs');
 
+//================== Authentication ===========================================
 var echo = new Echojs({
   key: Keys.echoKey
 });
@@ -17,6 +23,7 @@ var twit = new Twit({
   access_token_secret: Keys.twAccessTokenSecret
 });
 
+//================== Echonest Fetch ===========================================
 function echoNest(userInput, outputID) {
   echo('artist/search').get({ // Profile Search
     name: userInput,
@@ -50,20 +57,20 @@ function echoNest(userInput, outputID) {
 }
 
 module.exports = function(app) {
-  // api ---------------------------------------------------------------------
+//================== Routes ===================================================
+  var router = express.Router();
+  // Fetch Artist
   app.get('/api/v1/artists', function(req, res) {
-
-    // use mongoose to get all todos in the database
+    // Use mongoose to query db
     Artist.find(function(err, artist) {
       if (err) {
         res.send(err);
         console.log("error");
       }
-      res.json(artist); // return all todos in JSON format
+      res.json(artist); // Returns json object
     });
   });
-
-  // Searches for artist
+  // Artist Search
   app.post('/api/v1/artists', function(req, res) {
     console.log("Querying DB for " + req.body.text);
     var userInput = req.body.text;
@@ -144,9 +151,13 @@ module.exports = function(app) {
       });
     });
   });
+  // New API Begins Here. Use express Router middleware.
+  router.route('/api/v1/artist')
+    .post(function(req, res) {
+    })
 
-  // application  ------------------------------------------------------------
+//================== Application ==============================================
   app.get('*', function(req, res) {
-    res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+    res.sendfile('./public/index.html'); // load the single page
   });
 };

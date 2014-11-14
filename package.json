@@ -17,12 +17,6 @@
     "analytics"
   ],
   "author": "Byron Samaripa <byron.samaripa@gmail.com>",
-  "contributors": [
-    {
-      "name": "Landon Bedell",
-      "email": "landon.bedell@colorado.edu"
-    }
-  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bsamaripa/music-nest/issues"
